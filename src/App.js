@@ -1,68 +1,46 @@
 import { BODY } from './my_modules/htmlComponents';
 import Page from './components/Page';
-//import getStartState from './data';
 
-import { getList, getTranslate } from './data/getData'
+const startState = {
+  level: 0,
+  page: 0,
+  screen: 'start',
+};
 
 
+const startApp = (state) => {
+  const appState = state;
+  let App;
 
-BODY({style: 'min-height: 100vh'}, [
-  new Page(),
-]);
+  const refreshApp = () => {
+    App.refresh({...appState});
+  };
 
-/*  startState = {
-      mode: 'train',
-      menu: 'close',
-      current: 'main',
-      categories = {
-        main: [<categories>],
-        <name>: {<category>},
-      },
-      data: [],
-    };
-*/
+  const onLevelChange = (level) => {
+    appState.level = level;
+    appState.page = 0;
+    refreshApp();
+  };
 
-// const startApp = (state) => {
-//   const appState = state;
-//   let App;
+  const onPageChange = (page) => {
+    appState.page = page;
+    refreshApp();
+  };
 
-//   const refreshApp = () => {
-//     App.refresh(appState);
-//   };
+  const onStartClick = () => {
+    appState.screen = 'main';
+    refreshApp();
+  }
 
-//   const onMenuClick = () => {
-//     appState.menu = appState.menu === 'open' ? 'close' : 'open';
-//     refreshApp();
-//   };
+  appState.onLevelChange = onLevelChange;
+  appState.onPageChange = onPageChange;
+  appState.onStartClick = onStartClick;
 
-//   const closeMenu = () => {
-//     appState.menu = 'close';
-//     refreshApp();
-//   };
+  App = new Page({...appState});
 
-//   const onModeClick = () => {
-//     appState.mode = appState.mode === 'train' ? 'play' : 'train';
-//     refreshApp();
-//   };
+  BODY({}, [
+    App,
+  ]);
+};
 
-//   const onCategoryChange = (category) => {
-//     appState.current = category;
-//     appState.menu = 'close';
-//     refreshApp();
-//   };
-
-//   appState.onMenuClick = onMenuClick;
-//   appState.onModeClick = onModeClick;
-//   appState.onCategoryChange = onCategoryChange;
-//   appState.closeMenu = closeMenu;
-
-//   App = new Page(appState);
-
-//   BODY({}, [
-//     App,
-//   ]);
-// };
-
-// getStartState().then((startState) => {
-//   startApp(startState);
-// });
+startApp(startState);

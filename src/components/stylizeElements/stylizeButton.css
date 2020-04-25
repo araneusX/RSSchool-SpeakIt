@@ -1,0 +1,16 @@
+.btn {
+  background-color: #546e7a;
+  word-wrap: break-word;
+  height: auto;
+  min-height: 40px;
+  margin: 10px;
+  line-height: 1.5em;
+  display: flex;
+  align-items: center;
+  word-break: break-all;
+  font-size: 1.4vw;
+}
+
+.btn:hover {
+  background-color: #607d8b;
+}

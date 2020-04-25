@@ -1,0 +1,21 @@
+.word {
+  background-color: #cfd8dcc2;
+  word-wrap: normal;
+  height: auto;
+  border: 1px solid #263238;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+  min-width: 25vw;
+  flex: 1 0 200px;
+}
+
+.word:hover {
+  background-color: #b0bec5d0
+}
+
+.word>span:first-child {
+  margin-right: 20px;
+  font-weight: 600;
+}

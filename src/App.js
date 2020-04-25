@@ -30,6 +30,8 @@ const startApp = (state) => {
   const onStartClick = () => {
     appState.screen = 'main';
     refreshApp();
+    const audio = new Audio('https://wooordhunt.ru/data/sound/word/us/mp3/hello.mp3');
+    audio.play();
   }
 
   appState.onLevelChange = onLevelChange;

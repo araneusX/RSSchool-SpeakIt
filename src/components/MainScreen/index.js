@@ -1,3 +1,5 @@
+import { getTranslate } from '../../data';
+
 import { DIV, P, CustomComponent } from '../../my_modules/htmlComponents';
 import stylizeButton from '../stylizeElements/stylizeButton';
 import Navigation from './Navigation';
@@ -16,7 +18,7 @@ import style from './style.css';
 class MainScreen extends CustomComponent {
   constructor(props) {
     super(props);
-    this.current = this.props.list[0];
+    this.current = null;
     this.pronounced = [];
     this.mode = 'train';
 
@@ -24,9 +26,24 @@ class MainScreen extends CustomComponent {
       if (event.target.dataset.level && event.target.dataset.level !== this.props.level) {
         this.props.onLevelChange(event.target.dataset.level);
       } else if (event.target.dataset.page && event.target.dataset.page !== this.props.page) {
-        console.log(event.target.dataset.page);
-        
         this.props.onPageChange(event.target.dataset.page);
+      } else if (event.target.dataset.current ||event.target.parentNode.dataset.current) {
+        this.current = event.target.dataset.current ||event.target.parentNode.dataset.current;
+        if (!this.props.list[this.current].translate) {
+          getTranslate(this.props.list[this.current].word)
+            .then((translate) => {
+              this.props.list[this.current].translate = translate;
+              this.refreshChildren({current: this.current});
+            })
+        } else {
+          this.refreshChildren({current: this.current});
+        }
+        if (!this.props.list[this.current].audioSrc) {
+          this.props.list[this.current].audioSrc = new Audio(
+            `https://raw.githubusercontent.com/araneusx/rslang-data/master/data/${this.props.list[this.current].audio}`
+          );
+        }
+        this.props.list[this.current].audioSrc.play();
       }
     })
   }
@@ -39,10 +56,13 @@ class MainScreen extends CustomComponent {
             page: this.props.page,
             level: this.props.level,
           }),
+          DIV({ className: 'divider' }),
           new Frame({
-            current: this.current || this.props.list[0],
+            current: this.current || null,
             mode: this.mode || 'train',
+            list: this.props.list,
           }),
+          DIV({ className: 'divider' }),
           DIV({className: style.btnWrapper}, [
             stylizeButton({className: style.button, 'data-action': 'restart'}, [
               'restart',

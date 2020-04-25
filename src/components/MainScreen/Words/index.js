@@ -15,7 +15,7 @@ class Words extends CustomComponent {
   }
 
   render() {
-    const content = this.props.list.map((word) => stylizeWord({}, [
+    const content = this.props.list.map((word, i) => stylizeWord({'data-current': i}, [
       SPAN({}, [word.word]),
       SPAN({}, [word.transcription]),
     ]))

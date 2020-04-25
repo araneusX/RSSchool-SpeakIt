@@ -14,13 +14,13 @@ class Navigation extends CustomComponent {
 
     for (let i = 0; i < 6; i += 1) {
       levels.push(
-        LI({ className: `waves-effect ${style.item}`, 'data-level': i}, [`${i + 1}`]),
+        LI({ className: `z-depth-1 waves-effect ${style.item}`, 'data-level': i}, [`${i + 1}`]),
       );
     }
 
     for (let i = 0; i < 60; i += 1) {
       pages.push(
-        LI({ className: `waves-effect ${style.item}`, 'data-page': i}, [`${i + 1}`]),
+        LI({ className: `z-depth-1 waves-effect ${style.item}`, 'data-page': i}, [`${i + 1}`]),
       );
     }
 
@@ -34,6 +34,7 @@ class Navigation extends CustomComponent {
           SPAN({ className: style.title}, ['LEVEL:']),
           UL({ className: style.ul}, levels),
         ]),
+        DIV({ className: 'divider' }),
         DIV({ className: style.row }, [
           SPAN({ className: style.title}, ['PAGE:']),
           UL({ className: style.ul}, pages),

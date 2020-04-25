@@ -1,9 +1,9 @@
 {
-  "name": "english-for-kids",
+  "name": "SpeakIt",
   "version": "1.0.0",
   "author": "araneusX <araneusx@gmail.com>",
   "private": true,
-  "homepage": "https://araneusx.github.com/gem-puzzle",
+  "homepage": "",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
@@ -35,6 +35,7 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
+    "materialize-css": "^1.0.0-rc.2",
     "normalize.css": "^8.0.1"
   },
   "browserslist": "> 0.25%, not dead",

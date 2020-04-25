@@ -1,0 +1,21 @@
+.wrapper {
+  min-height: 100vh;
+  background-color: #455a6475;
+}
+
+.message {
+  border-radius: 5px;
+  height: 500px;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px !important;
+}
+
+.button {
+  font-size: 32px;
+  padding: 10px 20px;
+  height: auto;
+}

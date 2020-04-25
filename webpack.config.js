@@ -90,10 +90,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.png$/,
-        use: ['file-loader'],
-      },
-      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {

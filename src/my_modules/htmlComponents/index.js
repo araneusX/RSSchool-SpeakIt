@@ -12,6 +12,7 @@ export {
   TR, TD, TABLE, COLGROUP, COL, THEAD,
   A,
   SELECT, OPTION,
+  I,
 } from './html';
 
 export {

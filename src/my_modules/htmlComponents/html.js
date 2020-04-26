@@ -62,3 +62,5 @@ export const COLGROUP = (attributes = {}, content = []) => createHTMLElement('co
 export const COL = (attributes = {}, content = []) => createHTMLElement('col', attributes, content);
 
 export const THEAD = (attributes = {}, content = []) => createHTMLElement('thead', attributes, content);
+
+export const I = (attributes = {}, content = []) => createHTMLElement('i', attributes, content);

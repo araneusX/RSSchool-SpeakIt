@@ -20,12 +20,17 @@ export const getList = (level, page) => new Promise((resolve) => {
           .then((json) => {
             const list = page % 2 ? json.slice(0, 10) : json.slice(-10);
             const result = list.map((item) => {
-              return {
+              const word = {
                 word: item.word,
                 audio: item.audio.slice(6),
                 image: item.image.slice(6),
                 transcription: item.transcription,
+                translation: '',
               }
+              getTranslate(word.word).then((res) => {
+                word.translation = res;
+              });
+              return word;
             })
             resolve(result);
           });

@@ -9,11 +9,7 @@
   min-width: 25vw;
   flex: 1 0 200px;
   line-height: 1em;
-  padding: 0 0 5px;
-}
-
-.word:hover {
-  background-color: #b0bec5d0
+  padding: 2px 0;
 }
 
 .word>span:first-child {

@@ -1,3 +1,5 @@
+import SpeechModule from './SpeechModule';
+
 import { BODY } from './my_modules/htmlComponents';
 import Page from './components/Page';
 
@@ -5,6 +7,7 @@ const startState = {
   level: 0,
   page: 0,
   screen: 'start',
+  recognition: new SpeechModule,
 };
 
 

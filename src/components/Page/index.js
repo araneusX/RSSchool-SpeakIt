@@ -39,6 +39,7 @@ class Page extends CustomComponent {
             list: this.list || [],
             onLevelChange: this.props.onLevelChange,
             onPageChange: this.props.onPageChange,
+            recognition: this.props.recognition,
           })
       ])
     );

@@ -15,10 +15,6 @@ import style from './style.css';
   }
 */
 class Page extends CustomComponent {
-  constructor(props) {
-    super(props);
-  }
-
   refresh(newProps) {
     this.props = newProps;
     getList(this.props.level, this.props.page)
@@ -32,7 +28,7 @@ class Page extends CustomComponent {
     return (
       DIV({ className: style.page }, [
         this.props.screen === 'start'
-          ? new StartScreen({onStartClick: this.props.onStartClick})
+          ? new StartScreen({ onStartClick: this.props.onStartClick })
           : new MainScreen({
             level: this.props.level,
             page: this.props.page,
@@ -40,7 +36,7 @@ class Page extends CustomComponent {
             onLevelChange: this.props.onLevelChange,
             onPageChange: this.props.onPageChange,
             recognition: this.props.recognition,
-          })
+          }),
       ])
     );
   }

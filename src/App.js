@@ -16,17 +16,19 @@ const startApp = (state) => {
   let App;
 
   const refreshApp = () => {
-    App.refresh({...appState});
+    App.refresh({ ...appState });
   };
 
   const onLevelChange = (level) => {
     appState.level = level;
     appState.page = 0;
+    appState.recognition.stop();
     refreshApp();
   };
 
   const onPageChange = (page) => {
     appState.page = page;
+    appState.recognition.stop();
     refreshApp();
   };
 

@@ -1,8 +1,10 @@
-import { DIV, SPAN, I, CustomComponent } from '../../../my_modules/htmlComponents';
+import {
+  DIV, SPAN, I, CustomComponent,
+} from '../../../my_modules/htmlComponents';
 import stylizeWord from '../../stylizeElements/stylizeWord';
 import style from './style.css';
 
-/* 
+/*
    props = {
       list:
       mode:
@@ -10,10 +12,6 @@ import style from './style.css';
    }
 */
 class Words extends CustomComponent {
-  constructor(props) {
-    super(props);
-}
-
   refresh(newProps) {
     if (newProps.isGame !== this.props.isGame) {
       if (newProps.isGame) {
@@ -35,16 +33,16 @@ class Words extends CustomComponent {
         }
       });
     }
-    
+
     this.props = newProps;
   }
 
   render() {
     this.content = this.props.list.map((word, i) => {
-      const item = stylizeWord({'data-current': i}, [
+      const item = stylizeWord({ 'data-current': i }, [
         SPAN({}, [word.word]),
         SPAN({}, [word.transcription]),
-        I({ className: 'material-icons' }, ['volume_up'])
+        I({ className: `material-icons ${style.icon}` }, ['volume_up']),
       ]);
 
       if (!this.props.isGame) {
@@ -55,7 +53,7 @@ class Words extends CustomComponent {
       }
 
       return item;
-    })
+    });
 
     return (
       DIV({ className: style.wrapper }, [

@@ -9,36 +9,44 @@ import style from './style.css';
 */
 
 class Frame extends CustomComponent {
-  
   refresh(newProps) {
     this.props = newProps;
     this.rerender();
   }
-  
+
   render() {
-    const list = this.props.list;
-    const current = !Number.isNaN(Number.parseInt(this.props.current))
-      ? Number.parseInt(this.props.current) 
+    const { list } = this.props;
+    const current = !Number.isNaN(Number.parseInt(this.props.current, 10))
+      ? Number.parseInt(this.props.current, 10)
       : this.props.current;
-    
+
     const imgSrc = Number.isInteger(current)
       ? `https://raw.githubusercontent.com/araneusx/rslang-data/master/data/${list[current].image}`
       : '/assets/blank.jpg';
 
-    let text = Number.isInteger(current)
-      ? this.props.isGame ? list[current].word : list[current].translation
-      : current;
-      
-    const classRight = Number.isInteger(current) ? 'cyan-text text-lighten-4' : 'deep-orange-text text-accent-2';
+    let text;
+    if (Number.isInteger(current)) {
+      text = this.props.isGame ? list[current].word : list[current].translation;
+    } else {
+      text = current;
+    }
+
+    const classRight = Number.isInteger(current) ? 'teal-text text-darken-4' : 'deep-orange-text text-accent-2';
 
     return (
-      DIV({ className: style.wrapper}, [
-        DIV({ className: style.innerWrapper}, [
-          IMG({className: style.image, src: imgSrc, width: '375px', height: '250px'}),
-          DIV({ className: `flow-text ${style.textField} ${classRight}`}, [
-            text
+      DIV({ className: style.wrapper }, [
+        DIV({ className: `z-depth-3 ${style.innerWrapper}` }, [
+          IMG({
+            className: style.image, src: imgSrc, width: '375px', height: '250px',
+          }),
+          DIV({ className: `flow-text ${style.textField} ${classRight}` }, [
+            text,
           ]),
-        ])
+        ]),
+        DIV({ className: style.total }, [
+          DIV({}, ['Total']),
+          DIV({}, [`${this.props.recognized.length} / 10`]),
+        ]),
       ])
     );
   }

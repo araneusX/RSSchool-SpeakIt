@@ -41,19 +41,21 @@ class Results extends CustomComponent {
 
     if (this.props.isResult) {
       if (this.props.savedShow) {
+        let num = 0;
         this.props.list.forEach((item, i) => {
-          if (i > 0) {
-            const date = new Date(item.gameId);
-            const hoursStr = date.getHours() > 9 ? `${date.getHours()}` : `0${date.getHours()}`;
-            const minsStr = date.getMinutes() > 9 ? `${date.getMinutes()}` : `0${date.getMinutes()}`;
-            const dateStr = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} - ${hoursStr}:${minsStr}`;
-
-            innerContent.push(
-              DIV({ className: `flow-text ${style.item}`, 'data-saved': i }, [
-                `${i}. ${dateStr} Level:${item.level} Page:${item.page} Total:${item.recognized.length}`,
-              ]),
-            );
-          }
+          num += 1;
+          const date = new Date(item.gameId);
+          const hoursStr = date.getHours() > 9 ? `${date.getHours()}` : `0${date.getHours()}`;
+          const minsStr = date.getMinutes() > 9 ? `${date.getMinutes()}` : `0${date.getMinutes()}`;
+          const dateStr = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} - ${hoursStr}:${minsStr}`;
+          const level = Number.parseInt(item.level, 10) + 1;
+          const page = Number.parseInt(item.page, 10) + 1;
+          
+          innerContent.push(
+            DIV({ className: `flow-text ${style.item}`, 'data-saved': i }, [
+              `${num}. ${dateStr} | Level:${level} | Page:${page} | Total:${item.recognized.length}`,
+            ]),
+          );
         });
       } else {
         this.props.list.forEach((word, i) => {

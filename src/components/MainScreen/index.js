@@ -18,14 +18,14 @@ import style from './style.css';
 class MainScreen extends CustomComponent {
   constructor(props) {
     super(props);
-    let mic = this.children[0].children[4].children[1].children[0].node;
-    let results = this.children[0].children[6];
+    const mic = this.children[0].children[4].children[1].children[0].node;
+    const results = this.children[0].children[6];
 
     this.current = "Let's start!";
     this.isGame = false;
     this.recognized = [];
     this.isRec = false;
-    this.gameId = Date.now();
+    this.gameId = null;
     this.savedList = null;
 
     this.node.addEventListener('click', (event) => {
@@ -36,6 +36,7 @@ class MainScreen extends CustomComponent {
       } else if (!this.isGame
         && (event.target.dataset.current || event.target.parentNode.dataset.current)) {
         this.current = event.target.dataset.current || event.target.parentNode.dataset.current;
+
         this.refreshChildren({ current: this.current });
 
         if (!this.props.list[this.current].audioSrc) {
@@ -64,7 +65,7 @@ class MainScreen extends CustomComponent {
               } else {
                 this.current = 'Please select next page or restart!';
               }
-              this.saveGame();
+              this.saveGame(Date.now());
               this.refreshChildren({
                 isGame: this.isGame,
                 current: this.current,
@@ -141,8 +142,22 @@ class MainScreen extends CustomComponent {
     });
   }
 
-  saveGame() {
-    let isSave = false;
+  saveGame(id = false) {
+    const saved = localStorage.getItem('saved');
+    let savedGames = [];
+
+    if (id) {
+      this.gameId = id;
+    }
+
+    if (saved) {
+      if (id) {
+        savedGames = JSON.parse(saved).slice(0, 10);
+      } else {
+        savedGames = JSON.parse(saved).slice(1, 11);
+      }
+    }
+
     const game = {
       list: this.props.list.map((item) => (
         {
@@ -155,35 +170,20 @@ class MainScreen extends CustomComponent {
       )),
       level: this.props.level,
       page: this.props.page,
-      current: this.current,
-      isGame: this.isGame,
       recognized: this.recognized,
-      isRec: this.isRec,
       gameId: this.gameId,
     };
 
-    const saved = localStorage.getItem('saved');
-    let savedGames = [];
-    if (saved) {
-      savedGames = JSON.parse(saved).slice(0, 10);
-    }
-
-    for (let i = 0; i < savedGames.length; i += 1) {
-      if (savedGames[i].gameId === this.gameId) {
-        savedGames[i] = game;
-        isSave = true;
-      }
-    }
-
-    if (!isSave) {
-      savedGames.unshift(game);
-    }
+    savedGames.unshift(game);
 
     localStorage.setItem('saved', JSON.stringify(savedGames));
   }
 
   getSaved() {
     if (localStorage.getItem('saved')) {
+      if (this.isGame) {
+        return JSON.parse(localStorage.getItem('saved')).slice(1, 11);
+      }
       return JSON.parse(localStorage.getItem('saved')).slice(0, 10);
     }
 
@@ -249,6 +249,7 @@ class MainScreen extends CustomComponent {
             list: this.props.list,
             isGame: this.isGame || false,
             recognized: this.recognized || [],
+            current: this.current,
           }),
           new Results({
             list: this.props.list,

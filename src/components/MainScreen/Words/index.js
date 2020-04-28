@@ -18,6 +18,7 @@ class Words extends CustomComponent {
         this.content.forEach((element) => {
           element.node.classList.remove(style.train);
           element.node.classList.remove('waves-effect');
+          element.node.classList.remove(style.recognized);
         });
       } else {
         this.content.forEach((element) => {
@@ -32,6 +33,8 @@ class Words extends CustomComponent {
           this.content[i].node.classList.add(style.recognized);
         }
       });
+    } else if (this.props.current !== newProps.current) {
+      this.content[newProps.current].node.classList.add(style.recognized);
     }
 
     this.props = newProps;

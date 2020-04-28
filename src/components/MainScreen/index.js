@@ -1,4 +1,6 @@
-import { DIV, I, CustomComponent } from '../../my_modules/htmlComponents';
+import {
+  DIV, I, SPAN, CustomComponent,
+} from '../../my_modules/htmlComponents';
 import stylizeButton from '../stylizeElements/stylizeButton';
 import Navigation from './Navigation';
 import Frame from './Frame';
@@ -45,33 +47,40 @@ class MainScreen extends CustomComponent {
           );
         }
         this.props.list[this.current].audioSrc.play();
-      } else if (event.target.dataset.action) {
-        switch (event.target.dataset.action) {
+      } else if (event.target.dataset.action || event.target.parentNode.dataset.action) {
+        const action = event.target.dataset.action || event.target.parentNode.dataset.action;
+        switch (action) {
           case 'rec':
-            if (this.isGame) {
-              if (this.isRec) {
-                this.props.recognition.stop();
-                this.current = 'Game paused...';
+            if (this.recognized.length < 10) {
+              if (this.isGame) {
+                if (this.isRec) {
+                  this.props.recognition.stop();
+                  this.current = 'Game paused...';
+                } else {
+                  this.current = 'Please speak!';
+                  this.props.recognition.startAndDo(this.onResultGame.bind(this));
+                }
+                this.refreshChildren({ isRec: this.isRec, current: this.current });
               } else {
-                this.current = 'Please speak!';
-                this.props.recognition.startAndDo(this.onResultGame.bind(this));
-              }
-              this.refreshChildren({ isRec: this.isRec, current: this.current });
-            } else {
-              if (this.recognized.length < 10) {
                 this.props.recognition.startAndDo(this.onResultGame.bind(this));
                 this.isGame = true;
                 this.current = 'Please speak!';
-              } else {
-                this.current = 'Please select next page or restart!';
+                this.saveGame(Date.now());
               }
-              this.saveGame(Date.now());
+
+              this.isRec = !this.isRec;
+
+              if (this.isRec) {
+                mic.classList.add(style.on);
+              } else {
+                mic.classList.remove(style.on);
+              }
+
               this.refreshChildren({
                 isGame: this.isGame,
                 current: this.current,
               });
             }
-            this.isRec = !this.isRec;
             break;
           case 'new':
             if (this.props.page < 59) {
@@ -105,6 +114,7 @@ class MainScreen extends CustomComponent {
               }
             } else {
               this.current = 'Please select next page or restart!';
+              mic.classList.remove(style.on);
             }
             this.refreshChildren({
               list: this.props.list,
@@ -123,12 +133,6 @@ class MainScreen extends CustomComponent {
             });
             break;
           default: console.log(`Pressed ${event.target.dataset.action}`);
-        }
-
-        if (this.isRec) {
-          mic.classList.add(style.on);
-        } else {
-          mic.classList.remove(style.on);
         }
       } else if (event.target.dataset.saved) {
         const current = event.target.dataset.saved;
@@ -235,14 +239,16 @@ class MainScreen extends CustomComponent {
           DIV({ className: 'divider' }),
           DIV({ className: style.btnWrapper }, [
             stylizeButton({ className: style.button, 'data-action': 'restart' }, [
-              'restart',
+              I({ className: `material-icons ${style.icon}` }, ['refresh']),
+              SPAN({ className: style.btnTxt }, ['restart']),
             ]),
             stylizeButton({ className: style.button, 'data-action': 'rec' }, [
               I({ className: `material-icons ${style.mic}` }, ['mic']),
-              'click on the button and speak',
+              SPAN({ className: style.btnTxt }, ['click on the button and speak']),
             ]),
             stylizeButton({ className: style.button, 'data-action': 'result' }, [
-              'results',
+              I({ className: `material-icons ${style.icon}` }, ['done_all']),
+              SPAN({ className: style.btnTxt }, ['results']),
             ]),
           ]),
           new Words({

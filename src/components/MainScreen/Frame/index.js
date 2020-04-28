@@ -31,7 +31,7 @@ class Frame extends CustomComponent {
       text = current;
     }
 
-    const classRight = Number.isInteger(current) ? 'teal-text text-darken-4' : 'deep-orange-text text-accent-2';
+    const classRight = Number.isInteger(current) ? 'green-text text-accent-3' : 'red-text text-accent-2';
 
     return (
       DIV({ className: style.wrapper }, [

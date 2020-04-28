@@ -37,8 +37,9 @@ class Words extends CustomComponent {
       if (!Number.isNaN(Number.parseInt(this.props.current, 10))) {
         this.content[this.props.current].node.classList.remove(style.recognized);
       }
-
-      this.content[newProps.current].node.classList.add(style.recognized);
+      if (!Number.isNaN(Number.parseInt(newProps.current, 10))) {
+        this.content[newProps.current].node.classList.add(style.recognized);
+      }
     }
 
     this.props = newProps;

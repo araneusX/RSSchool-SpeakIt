@@ -216,7 +216,7 @@ class MainScreen extends CustomComponent {
       this.saveGame();
       this.refreshChildren({ recognized: [...this.recognized], current: this.current });
     } else {
-      this.current = resultArr[0].length > 0 ? resultArr[0] : resultArr[1];
+      this.current = resultArr[0];
       this.refreshChildren({ current: `${this.current}?` });
     }
   }

@@ -1,22 +1,28 @@
 export default class SpeechModule {
   constructor() {
-    const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-    this.recognition = new SpeechRecognition();
-    this.recognition.continuous = true;
-    this.recognition.lang = 'en-US';
-    this.recognition.interimResults = false;
-    this.recognition.maxAlternatives = 10;
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('Sorry you require a browser that supports speech recognition');
+      this.startAndDo = () => {};
+      this.stop = () => {};
+    } else {
+      const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+      this.recognition = new SpeechRecognition();
+      this.recognition.continuous = true;
+      this.recognition.lang = 'en-US';
+      this.recognition.interimResults = false;
+      this.recognition.maxAlternatives = 10;
 
-    this.onGetResult = null;
-    this.onResultFunc = this.onResult.bind(this);
+      this.onGetResult = null;
+      this.onResultFunc = this.onResult.bind(this);
 
-    this.isStart = false;
+      this.isStart = false;
 
-    this.recognition.addEventListener('end', () => {
-      if (this.isStart) {
-        this.recognition.start();
-      }
-    });
+      this.recognition.addEventListener('end', () => {
+        if (this.isStart) {
+          this.recognition.start();
+        }
+      });
+    }
   }
 
   onResult(event) {
@@ -24,7 +30,10 @@ export default class SpeechModule {
     Array.from(event.results[event.results.length - 1]).forEach((result) => {
       const words = result.transcript.split(' ');
       words.forEach((word) => {
-        if (!resultsArr.includes(word.toLowerCase())) {
+        if (!resultsArr.includes(word.toLowerCase())
+            && word.length > 0
+            && Number.isNaN(Number.parseInt(word, 10))
+        ) {
           resultsArr.push(word.toLowerCase());
         }
       });

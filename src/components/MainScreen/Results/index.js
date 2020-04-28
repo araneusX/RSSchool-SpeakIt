@@ -50,7 +50,7 @@ class Results extends CustomComponent {
           const dateStr = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} - ${hoursStr}:${minsStr}`;
           const level = Number.parseInt(item.level, 10) + 1;
           const page = Number.parseInt(item.page, 10) + 1;
-          
+
           innerContent.push(
             DIV({ className: `flow-text ${style.item}`, 'data-saved': i }, [
               `${num}. ${dateStr} | Level:${level} | Page:${page} | Total:${item.recognized.length}`,

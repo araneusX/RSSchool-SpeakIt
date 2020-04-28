@@ -7,7 +7,7 @@ const startState = {
   level: 0,
   page: 0,
   screen: 'start',
-  recognition: new SpeechModule,
+  recognition: new SpeechModule(),
 };
 
 
@@ -37,13 +37,13 @@ const startApp = (state) => {
     refreshApp();
     const audio = new Audio('https://wooordhunt.ru/data/sound/word/us/mp3/hello.mp3');
     audio.play();
-  }
+  };
 
   appState.onLevelChange = onLevelChange;
   appState.onPageChange = onPageChange;
   appState.onStartClick = onStartClick;
 
-  App = new Page({...appState});
+  App = new Page({ ...appState });
 
   BODY({}, [
     App,

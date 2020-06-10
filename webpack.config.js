@@ -99,6 +99,10 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.png$/,
+        use: ['file-loader'],
+      },
     ],
   },
 
